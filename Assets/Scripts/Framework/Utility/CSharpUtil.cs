@@ -43,7 +43,14 @@ namespace SLGFramework
             global.Set<Action<LuaFunction>>("UnityNextFrame", fn =>
             {
                 if (GameEntry.Instance != null)
+                {
                     GameEntry.Instance.StartCoroutine(NextFrameCoroutine(fn));
+                }
+                else
+                {
+                    Debug.LogWarning("[CSharpUtil] UnityNextFrame called but GameEntry.Instance is null. " +
+                                     "Ensure GameEntry is initialized before calling UnityNextFrame.");
+                }
             });
 
             // ── JSON（依赖 Unity JsonUtility 或第三方库）────────────────────

@@ -6,8 +6,9 @@
 ---
 --- retain = true：保留实例，切回时快速恢复地图状态。
 
-local ModeBase = require("Framework.Mode.ModeBase")
-local Logger   = require("Framework.Core.Logger")
+local ModeBase     = require("Framework.Mode.ModeBase")
+local Logger       = require("Framework.Core.Logger")
+local DungeonUtil  = require("Modes.DungeonUtil")
 
 local log = Logger.get("WorldMode")
 
@@ -84,12 +85,7 @@ end
 ---@param dungeonId   string
 ---@param dungeonType string  "normal" | "room"
 function WorldMode:enterDungeon(dungeonId, dungeonType)
-    local NormalDungeonMode = require("Modes.NormalDungeonMode")
-    local RoomDungeonMode   = require("Modes.RoomDungeonMode")
-    local targetId = (dungeonType == RoomDungeonMode.TYPE)
-        and RoomDungeonMode.ID
-        or  NormalDungeonMode.ID
-    G_ModeManager:switchTo(targetId, { dungeonId = dungeonId })
+    DungeonUtil.enterDungeon(dungeonId, dungeonType)
 end
 
 --- 从大地图进入竞技场

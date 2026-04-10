@@ -6,8 +6,9 @@
 ---
 --- retain = true：切换到其他模式时暂停保留，快速恢复不需要重新加载场景。
 
-local ModeBase = require("Framework.Mode.ModeBase")
-local Logger   = require("Framework.Core.Logger")
+local ModeBase     = require("Framework.Mode.ModeBase")
+local Logger       = require("Framework.Core.Logger")
+local DungeonUtil  = require("Modes.DungeonUtil")
 
 local log = Logger.get("CityMode")
 
@@ -84,15 +85,10 @@ function CityMode:enterCampaign(level)
 end
 
 --- 从内城进入副本
----@param dungeonId string   副本配置 id
+---@param dungeonId   string  副本配置 id
 ---@param dungeonType string  "normal" | "room"
 function CityMode:enterDungeon(dungeonId, dungeonType)
-    local NormalDungeonMode = require("Modes.NormalDungeonMode")
-    local RoomDungeonMode   = require("Modes.RoomDungeonMode")
-    local targetId = (dungeonType == RoomDungeonMode.TYPE)
-        and RoomDungeonMode.ID
-        or  NormalDungeonMode.ID
-    G_ModeManager:switchTo(targetId, { dungeonId = dungeonId })
+    DungeonUtil.enterDungeon(dungeonId, dungeonType)
 end
 
 --- 从内城进入竞技场
